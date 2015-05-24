@@ -12,9 +12,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class loginView extends JFrame implements EventListener {
+public class loginView implements EventListener {
 
 	private static final long serialVersionUID = -3971072789962173880L;
+	JFrame frame = new JFrame();
 	Container base;
 	twitterClient client;
 	//the main window to get and set messages
@@ -22,7 +23,7 @@ public class loginView extends JFrame implements EventListener {
 	twitterInterface _t;
 	JTextField nameField,passwordField;
 	String ClientID;
-			
+	loginView lg;	
 	public String getClientID() {
 		return ClientID;
 	}
@@ -35,12 +36,12 @@ public class loginView extends JFrame implements EventListener {
 	// set Frame
 	public void initFrame() {
 		// set base layout of this frame
-		base = this.getContentPane();
+		base = frame.getContentPane();
 		base.setLayout(new GridLayout(2,1));
 		// set size and location of the window
 		Dimension d = new Dimension(600, 400);
-		this.setMinimumSize(d);
-		this.setLocationRelativeTo(null);
+		frame.setMinimumSize(d);
+		frame.setLocationRelativeTo(null);
 		
 		// Two buttons : login when already have a account, register when need to create a new account
 		JButton login = new JButton("Login");
@@ -75,6 +76,7 @@ public class loginView extends JFrame implements EventListener {
 		    //if log in success, turn to the main page of chat
 			if(_t.login(name, password)){	
 				ClientID = name;
+				frame.dispose();
 				main = new mainView(_t, ClientID);
 				main.setVisible(true);
 				
@@ -108,6 +110,6 @@ public class loginView extends JFrame implements EventListener {
 			}});
 		base.add(textJPanel);
 		base.add(buttonJPanel);
-		this.setVisible(true);
+		frame.setVisible(true);
 	}}
 

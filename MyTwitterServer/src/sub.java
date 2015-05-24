@@ -1,5 +1,6 @@
 
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.jms.ConnectionFactory;
@@ -16,7 +17,7 @@ public class sub implements javax.jms.MessageListener{
     private javax.jms.Connection connect = null;
     private javax.jms.Session receiveSession = null;
     InitialContext context = null;
-    String s=null;
+    static String s=null;
     public String configurer(String topicName, String ClientID) throws JMSException {
 
         try
@@ -68,14 +69,14 @@ public class sub implements javax.jms.MessageListener{
     public void onMessage(Message message) {
         try {
             TextMessage textMessage = (TextMessage) message;
-            s = textMessage.getText();
+            s = textMessage.getText();    
             System.out.println(textMessage.getText());
         } catch (JMSException jmse) {
             jmse.printStackTrace();
         }
     }
 
-    public void getMessage(){
+    public String getMessage(){
         return s;
     }
 

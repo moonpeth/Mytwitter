@@ -45,7 +45,7 @@ public class mainView extends JFrame implements EventListener {
 		// Two buttons : login when already have a account, register when need
 		// to create a new account
 		post = new JButton("Post");
-		relayer = new JButton("Relayer");
+		relayer = new JButton("getMsg");
 		topics = new JButton("Show Topics");
 		topicChosen = new JTextField();
 		topicChosen.setColumns(9);
@@ -131,7 +131,14 @@ public class mainView extends JFrame implements EventListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+			try {
+				ArrayList<String> msg = _t.getMessage();
+				for (String string : msg) {
+					showArea.append("\n"+string);
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 
 			}
 		});
