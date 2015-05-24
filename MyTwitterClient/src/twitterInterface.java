@@ -19,5 +19,7 @@ public interface twitterInterface extends java.rmi.Remote{
     public void stockMsg(String topic,String content) throws java.rmi.RemoteException;
     //read message history
     public ArrayList<String> historyMsg(String topic) throws java.rmi.RemoteException;
+    //get new tweet
+    public String getMessage() throws java.rmi.RemoteException;
 }
 

@@ -54,6 +54,8 @@ public class twitterClient {
                         for(String i:topicList){
                             System.out.println(i);
                         }
+                    }else if(s.equalsIgnoreCase("read")){
+                        
                     }else if(s.equalsIgnoreCase("exit")){
                         System.exit(0);
                     }
