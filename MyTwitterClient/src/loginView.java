@@ -26,7 +26,7 @@ public class loginView extends JFrame implements EventListener {
 	public loginView(twitterInterface t) {
 		_t = t;
 		initFrame();
-		main = new mainView();
+		main = new mainView(t);
 	}
 
 	// set Frame
@@ -70,7 +70,7 @@ public class loginView extends JFrame implements EventListener {
 			String password = passwordField.getText();
 			try {
 		    //if log in success, turn to the main page of chat
-			if(_t.login(name, password)){
+			if(_t.login(name, password)){				
 				main.setVisible(true);
 			}else{
 				JOptionPane.showMessageDialog(null,

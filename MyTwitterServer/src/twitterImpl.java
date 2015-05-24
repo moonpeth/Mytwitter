@@ -1,3 +1,4 @@
+import java.awt.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -5,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 import javax.jms.JMSException;
 
@@ -13,11 +15,17 @@ public class twitterImpl extends UnicastRemoteObject implements
 
 	protected twitterImpl() throws RemoteException {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	private static final long serialVersionUID = 1L;
+	/**
+     * 
+     */
+
 	// public destination, notify everyone when there is a new topic
-	public String pubTopic = "public_notification";
+
+	private static String pubTopic = "public_notification";
+	private ArrayList<String> topicList = new ArrayList<String>();
 
 	public void post(String topicName, String text) {
 		try {
@@ -27,22 +35,32 @@ public class twitterImpl extends UnicastRemoteObject implements
 		}
 	}
 
-	public void follow(String topicName) {
+	public String follow(String topicName) {
+		String s = null;
 		try {
-			(new sub()).configurer(topicName);
+			s = (new sub()).configurer(topicName);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
+		return s;
+	}
+
+	public void getNotify() {
+		follow(pubTopic);
 	}
 
 	public void createTopic(String topicName) {
-		System.out.println("New topic:" + topicName + " is created.");
+		topicList.add(topicName);
 		notifyNewTopic(topicName);
 	}
 
 	public void notifyNewTopic(String topicName) {
 		String msg = "New topic:" + topicName + " is created.";
 		post(pubTopic, msg);
+	}
+
+	public ArrayList getTopicList() {
+		return topicList;
 	}
 
 	public boolean login(String name, String password) {
@@ -69,16 +87,16 @@ public class twitterImpl extends UnicastRemoteObject implements
 		return false;
 	}
 
-	public void register(String name, String password){
+	public void register(String name, String password) {
 		BufferedWriter bw = null;
 		String userString = name + " " + password;
 		try {
-			bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/userList", true));
-			bw.write("\n"+userString);
-			bw.close();			
+			bw = new BufferedWriter(new FileWriter(
+					System.getProperty("user.dir") + "/userList", true));
+			bw.write("\n" + userString);
+			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -1,12 +1,22 @@
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Hashtable;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Queue;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
 
 
 public class pub{
@@ -18,7 +28,7 @@ public class pub{
     public void configurer(String topicName,String text) throws JMSException {
         
         try
-        {   //Create a connection, Commune Configurations
+        {   
             Hashtable properties = new Hashtable();
             properties.put(Context.INITIAL_CONTEXT_FACTORY, 
                 "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
@@ -36,16 +46,15 @@ public class pub{
         }
         this.writeMessage(text);
     }
-    //create a session, and choose a topic
     private void configurerPublisher(String topicName) throws JMSException, NamingException{
-        // Dans ce programme, on decide que le producteur decouvre la queue (ce qui la crï¿½ï¿½ï¿½ï¿½ra si le nom n'est pas encore utilisï¿½ï¿½) 
+        // Dans ce programme, on decide que le producteur decouvre la queue (ce qui la cr¨¦¨¦ra si le nom n'est pas encore utilis¨¦) 
         // et y accedera au cours d'1 session
         sendSession = connect.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
         Topic topic = (Topic) context.lookup("dynamicTopics/"+topicName);
         sender = sendSession.createProducer(topic);
  
     }
-    //publish a message
+     
     private void writeMessage(String text) throws JMSException{
         TextMessage message = sendSession.createTextMessage();
         message.setText(text);

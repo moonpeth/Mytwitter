@@ -1,3 +1,5 @@
+
+
 import java.net.MalformedURLException;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.Naming;
@@ -11,7 +13,7 @@ public class twitterServer {
             twitterInterface twitterDistante = new twitterImpl(); 
             LocateRegistry.createRegistry(8888); 
             Naming.bind("rmi://localhost:8888/twitterDistante",twitterDistante); 
-            System.out.println("success."); 
+            System.out.println("Server Ready."); 
         } catch (RemoteException e) { 
             System.out.println("RemoteException"); 
             e.printStackTrace(); 
@@ -24,3 +26,4 @@ public class twitterServer {
         } 
     } 
 }
+
