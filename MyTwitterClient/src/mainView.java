@@ -1,3 +1,7 @@
+/**
+ * @author Ye SUN(SI4 IMAFA), Ying JIANG(SI4 Groupe3)
+ *
+ */
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;

@@ -1,23 +1,18 @@
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+/**
+ * @author Ye SUN(SI4 IMAFA), Ying JIANG(SI4 Groupe3)
+ *
+ */
 import java.util.Hashtable;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
-import javax.jms.MapMessage;
-import javax.jms.Message;
-import javax.jms.Queue;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 
 public class pub{

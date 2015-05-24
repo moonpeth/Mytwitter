@@ -1,8 +1,8 @@
+/**
+ * @author Ye SUN(SI4 IMAFA), Ying JIANG(SI4 Groupe3)
+ *
+ */
 
-
-import java.awt.List;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface twitterInterface extends java.rmi.Remote{

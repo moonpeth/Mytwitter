@@ -1,5 +1,8 @@
 
-
+/**
+ * @author Ye SUN(SI4 IMAFA), Ying JIANG(SI4 Groupe3)
+ *
+ */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;

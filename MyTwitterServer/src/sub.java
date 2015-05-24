@@ -1,6 +1,8 @@
 
-
-import java.util.ArrayList;
+/**
+ * @author Ye SUN(SI4 IMAFA), Ying JIANG(SI4 Groupe3)
+ *
+ */
 import java.util.Hashtable;
 
 import javax.jms.ConnectionFactory;
