@@ -10,10 +10,11 @@ public class twitterClient {
         String topicName = null;
         String text = null;
         String pubTopic="public_notification";     
-        //interface
-        loginView login = new loginView();
+        
         try { 
-            twitterInterface t =(twitterInterface) Naming.lookup("rmi://localhost:8888/twitterDistante"); 
+            twitterInterface t =(twitterInterface) Naming.lookup("rmi://localhost:8888/twitterDistante");
+            //interface
+            loginView login = new loginView(t);
             try {
                 BufferedReader commandLine = new java.io.BufferedReader(
                         new InputStreamReader(System.in));

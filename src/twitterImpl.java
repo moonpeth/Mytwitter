@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -7,12 +10,8 @@ public class twitterImpl extends UnicastRemoteObject implements twitterInterface
 
     protected twitterImpl() throws RemoteException {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
     // public destination, notify everyone when there is a new topic
     public String pubTopic="public_notification";
@@ -43,4 +42,29 @@ public class twitterImpl extends UnicastRemoteObject implements twitterInterface
         post(pubTopic,msg);
     }
 
-}
+	public boolean login(String name, String password){
+		BufferedReader br = null;	
+		String userString = name+ " "+password;
+		try { 
+			String sCurrentLine;
+			//get users list
+			br = new BufferedReader(new FileReader(System.getProperty("user.dir")+"/userList")); 
+			while ((sCurrentLine = br.readLine()) != null) {
+				System.out.println(sCurrentLine);
+				//when user exists, return true
+				if(userString.equals(sCurrentLine)){
+				br.close();
+				return true;
+				}
+			}
+			br.close();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+       return false;
+	}
+		
+	}
+
+
