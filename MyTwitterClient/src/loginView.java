@@ -21,12 +21,15 @@ public class loginView extends JFrame implements EventListener {
 	mainView main;
 	twitterInterface _t;
 	JTextField nameField,passwordField;
-	
+	String ClientID;
 			
+	public String getClientID() {
+		return ClientID;
+	}
+
 	public loginView(twitterInterface t) {
 		_t = t;
 		initFrame();
-		main = new mainView(t);
 	}
 
 	// set Frame
@@ -70,8 +73,11 @@ public class loginView extends JFrame implements EventListener {
 			String password = passwordField.getText();
 			try {
 		    //if log in success, turn to the main page of chat
-			if(_t.login(name, password)){				
+			if(_t.login(name, password)){	
+				ClientID = name;
+				main = new mainView(_t, ClientID);
 				main.setVisible(true);
+				
 			}else{
 				JOptionPane.showMessageDialog(null,
 						"Please create a new account", "Hi,",

@@ -31,10 +31,10 @@ public class twitterClient {
                         System.out.println("Topic:");
                         topicName=commandLine.readLine();
                         System.out.println("Following twitter hashtag: "+ topicName);
-                        String msg = t.follow(topicName);
+                        String msg = t.follow(topicName,login.getClientID());
                         System.out.println(msg);
                     } else if(s.equalsIgnoreCase("notify")){
-                        t.getNotify();
+                        t.getNotify(login.getClientID());
                         //send a new msg to a chosen topic, done
                     } else if(s.equalsIgnoreCase("post")){
                         System.out.println("Topic:");

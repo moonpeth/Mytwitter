@@ -22,12 +22,14 @@ public class mainView extends JFrame implements EventListener {
 	twitterInterface _t;
 	JTextField topicChosen;
 	JTextArea showArea, tapeArea;
-	JButton post, relayer, topics, topic, follow;
+	JButton post, relayer, topics, topic, follow,history;
 	JPanel buttonJPanel, mainJPanel, textJPanel;
+	String ClientID;
 
-	public mainView(twitterInterface t) {
+	public mainView(twitterInterface t, String ClientID) {
 		_t = t;
 		initFrame();
+		this.ClientID = ClientID;
 	}
 
 	// set Frame
@@ -49,6 +51,7 @@ public class mainView extends JFrame implements EventListener {
 		topicChosen.setColumns(9);
 		topic = new JButton("New Topic");
 		follow = new JButton("Follow");
+		history = new JButton("History");
 		buttonJPanel = new JPanel();
 		buttonJPanel.add(topicChosen);
 		buttonJPanel.add(topic);
@@ -56,6 +59,7 @@ public class mainView extends JFrame implements EventListener {
 		buttonJPanel.add(topics);
 		buttonJPanel.add(post);
 		buttonJPanel.add(relayer);
+		buttonJPanel.add(history);
 
 		// text areas for showing messages
 		showArea = new JTextArea("messages will be shown here");
@@ -88,6 +92,7 @@ public class mainView extends JFrame implements EventListener {
 					} else {
 						// publish a message to a chosen topic
 						_t.post(topicString, contentString);
+						_t.stockMsg(topicString, contentString);
 						showArea.append("\n" + contentString);
 					}
 				} catch (RemoteException e) {
@@ -170,11 +175,9 @@ public class mainView extends JFrame implements EventListener {
 					} else {
 						showArea.setText("Following twitter hashtag: "
 								+ topicChosen.getText());
-						 while(true){
-	                            String msg = _t.follow(topicChosen.getText());
+	                            String msg = _t.follow(topicChosen.getText(),ClientID);
 	                            System.out.println(msg);
-	                            showArea.append("\n" + msg);
-	                        }				
+	                            showArea.append("\n" + msg);		
 						
 					}
 				} catch (RemoteException e) {
@@ -183,6 +186,32 @@ public class mainView extends JFrame implements EventListener {
 				}
 			}
 		});
+		
+		//to show the history messages along to topic
+		history.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if (topicChosen.getText().length() < 1) {
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"Please choose a topic",
+										"Hi,", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						ArrayList<String> history = _t.historyMsg(topicChosen.getText());
+						showArea.setText("HISTORY MESSAGE IN TOPIC: "+topicChosen.getText()+"\n");
+						for (String string : history) {
+							showArea.append("\n"+string);
+						}
+					}
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		base.add(textJPanel, BorderLayout.CENTER);
 		base.add(buttonJPanel, BorderLayout.SOUTH);
 		this.setVisible(false);

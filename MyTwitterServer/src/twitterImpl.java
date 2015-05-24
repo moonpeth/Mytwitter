@@ -35,18 +35,18 @@ public class twitterImpl extends UnicastRemoteObject implements
 		}
 	}
 
-	public String follow(String topicName) {
+	public String follow(String topicName,  String ClientID) {
 		String s = null;
 		try {
-			s = (new sub()).configurer(topicName);
+			s = (new sub()).configurer(topicName, ClientID);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
 		return s;
 	}
 
-	public void getNotify() {
-		follow(pubTopic);
+	public void getNotify(String ClientID) {
+		follow(pubTopic, ClientID);
 	}
 
 	public void createTopic(String topicName) {
@@ -99,4 +99,44 @@ public class twitterImpl extends UnicastRemoteObject implements
 			e.printStackTrace();
 		}
 	}
+
+	public void stockMsg(String topic,String content){
+    String msg = topic+"@"+content;
+    BufferedWriter bw = null;
+	try {
+		bw = new BufferedWriter(new FileWriter(
+				System.getProperty("user.dir") + "/msgHistory", true));
+		bw.write("\n" + msg);
+		bw.close();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+		
+	}
+	
+	public ArrayList<String> historyMsg(String topic)  {
+		BufferedReader br = null;
+		ArrayList<String> history = new ArrayList<>();
+		String[] rs;
+		try {
+			String sCurrentLine;
+			// get users list
+			br = new BufferedReader(new FileReader(
+					System.getProperty("user.dir") + "/msgHistory"));
+			while ((sCurrentLine = br.readLine()) != null) {
+				rs =  sCurrentLine.split("@");
+              if(rs[0].equals(topic)){
+            	  history.add(rs[1]);
+              }	
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return history;
+	
+		
+	}
+	
+
 }

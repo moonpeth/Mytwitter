@@ -4,16 +4,12 @@ import java.util.Hashtable;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
-import javax.jms.MapMessage;
 import javax.jms.Message;
-import javax.jms.Queue;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class sub implements javax.jms.MessageListener{
 
@@ -21,7 +17,7 @@ public class sub implements javax.jms.MessageListener{
     private javax.jms.Session receiveSession = null;
     InitialContext context = null;
     String s=null;
-    public String configurer(String topicName) throws JMSException {
+    public String configurer(String topicName, String ClientID) throws JMSException {
 
         try
         {   // Create a connection
@@ -34,8 +30,9 @@ public class sub implements javax.jms.MessageListener{
 
             javax.jms.ConnectionFactory factory = (ConnectionFactory) context.lookup("ConnectionFactory");
             connect = factory.createConnection();
-        
-            this.configurerSouscripteur(topicName); 
+            //for durable connection
+            connect.setClientID(ClientID);
+            this.configurerSouscripteur(topicName,ClientID); 
             connect.start(); // on peut activer la connection. 
         } catch (javax.jms.JMSException jmse){
             jmse.printStackTrace();
@@ -45,13 +42,13 @@ public class sub implements javax.jms.MessageListener{
         }
         return s;
     }
-    private void configurerSouscripteur(String topicName) throws JMSException, NamingException{
+    private void configurerSouscripteur(String topicName, String ClientID) throws JMSException, NamingException{
         // Pour consommer, il faudra simplement ouvrir une session 
         receiveSession = connect.createSession(false,javax.jms.Session.AUTO_ACKNOWLEDGE);  
-        // et dire dans cette session quelle queue(s) et topic(s) on accèdera et dans quel mode
+        // et dire dans cette session quelle queue(s) et topic(s) on accï¿½dera et dans quel mode
         Topic topic = (Topic) context.lookup("dynamicTopics/"+topicName);
-//        System.out.println("Following twitter profile: " + topic.getTopicName());
-        javax.jms.MessageConsumer topicReceiver = receiveSession.createConsumer(topic);//,"Conso");//,"typeMess = 'important'");
+       // durable receiver
+        javax.jms.MessageConsumer topicReceiver = receiveSession.createDurableSubscriber(topic, ClientID);
         topicReceiver.setMessageListener(this); 
         //ESSAI d'une reception synchrone
         connect.start(); // on peut activer la connection. 

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Hashtable;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
@@ -47,12 +48,12 @@ public class pub{
         this.writeMessage(text);
     }
     private void configurerPublisher(String topicName) throws JMSException, NamingException{
-        // Dans ce programme, on decide que le producteur decouvre la queue (ce qui la cr¨¦¨¦ra si le nom n'est pas encore utilis¨¦) 
+        // Dans ce programme, on decide que le producteur decouvre la queue (ce qui la crï¿½ï¿½ï¿½ï¿½ra si le nom n'est pas encore utilisï¿½ï¿½) 
         // et y accedera au cours d'1 session
         sendSession = connect.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
         Topic topic = (Topic) context.lookup("dynamicTopics/"+topicName);
         sender = sendSession.createProducer(topic);
- 
+        sender.setDeliveryMode(DeliveryMode.PERSISTENT);
     }
      
     private void writeMessage(String text) throws JMSException{
