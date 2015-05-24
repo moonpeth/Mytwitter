@@ -55,7 +55,7 @@ public class twitterClient {
                             System.out.println(i);
                         }
                     }else if(s.equalsIgnoreCase("read")){
-                        
+                        System.out.println(t.getMessage());
                     }else if(s.equalsIgnoreCase("exit")){
                         System.exit(0);
                     }
