@@ -75,4 +75,8 @@ public class sub implements javax.jms.MessageListener{
         }
     }
 
+    public void getMessage(){
+        return s;
+    }
+
 }

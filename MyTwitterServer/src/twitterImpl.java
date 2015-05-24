@@ -26,7 +26,7 @@ public class twitterImpl extends UnicastRemoteObject implements
 
 	private static String pubTopic = "public_notification";
 	private ArrayList<String> topicList = new ArrayList<String>();
-
+	sub s  = new sub();
 	public void post(String topicName, String text) {
 		try {
 			(new pub()).configurer(topicName, text);
@@ -38,12 +38,14 @@ public class twitterImpl extends UnicastRemoteObject implements
 	public String follow(String topicName,  String ClientID) {
 		String s = null;
 		try {
-			s = (new sub()).configurer(topicName, ClientID);
+			s = sub.configurer(topicName, ClientID);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
 		return s;
 	}
+
+	public String 
 
 	public void getNotify(String ClientID) {
 		follow(pubTopic, ClientID);
@@ -136,6 +138,11 @@ public class twitterImpl extends UnicastRemoteObject implements
 		return history;
 	
 		
+	}
+
+	public String getMessage(){
+	    String s = sub.getMessage();
+	    return s;
 	}
 	
 
