@@ -20,8 +20,9 @@ public class sub implements javax.jms.MessageListener{
     private javax.jms.Connection connect = null;
     private javax.jms.Session receiveSession = null;
     InitialContext context = null;
+    String s=null;
     public String configurer(String topicName) throws JMSException {
-        String s=null;
+
         try
         {   // Create a connection
             Hashtable properties = new Hashtable();
@@ -34,9 +35,8 @@ public class sub implements javax.jms.MessageListener{
             javax.jms.ConnectionFactory factory = (ConnectionFactory) context.lookup("ConnectionFactory");
             connect = factory.createConnection();
         
-            s=this.configurerSouscripteur(topicName); 
+            this.configurerSouscripteur(topicName); 
             connect.start(); // on peut activer la connection. 
-            return s;
         } catch (javax.jms.JMSException jmse){
             jmse.printStackTrace();
         } catch (NamingException e) {
@@ -45,16 +45,17 @@ public class sub implements javax.jms.MessageListener{
         }
         return s;
     }
-    private String configurerSouscripteur(String topicName) throws JMSException, NamingException{
+    private void configurerSouscripteur(String topicName) throws JMSException, NamingException{
         // Pour consommer, il faudra simplement ouvrir une session 
         receiveSession = connect.createSession(false,javax.jms.Session.AUTO_ACKNOWLEDGE);  
-        // et dire dans cette session quelle queue(s) et topic(s) on acc¨¨dera et dans quel mode
+        // et dire dans cette session quelle queue(s) et topic(s) on accèdera et dans quel mode
         Topic topic = (Topic) context.lookup("dynamicTopics/"+topicName);
 //        System.out.println("Following twitter profile: " + topic.getTopicName());
         javax.jms.MessageConsumer topicReceiver = receiveSession.createConsumer(topic);//,"Conso");//,"typeMess = 'important'");
-        //topicReceiver.setMessageListener(this); 
+        topicReceiver.setMessageListener(this); 
         //ESSAI d'une reception synchrone
         connect.start(); // on peut activer la connection. 
+/*
         while (true){
             Message msg= topicReceiver.receive();
 //          System.out.println("new tweet: "); 
@@ -63,12 +64,14 @@ public class sub implements javax.jms.MessageListener{
             String s= textMessage.getText();
             return s;
         }
+*/
     }
 
     @Override
     public void onMessage(Message message) {
         try {
             TextMessage textMessage = (TextMessage) message;
+            s = textMessage.getText();
             System.out.println(textMessage.getText());
         } catch (JMSException jmse) {
             jmse.printStackTrace();
