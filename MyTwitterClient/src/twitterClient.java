@@ -31,10 +31,8 @@ public class twitterClient {
                         System.out.println("Topic:");
                         topicName=commandLine.readLine();
                         System.out.println("Following twitter hashtag: "+ topicName);
-                        while(true){
-                            String msg = t.follow(topicName);
-                            System.out.println(msg);
-                        }
+                        String msg = t.follow(topicName);
+                        System.out.println(msg);
                     } else if(s.equalsIgnoreCase("notify")){
                         t.getNotify();
                         //send a new msg to a chosen topic, done
