@@ -12,4 +12,6 @@ public interface twitterInterface extends Remote{
     public void notifyNewTopic(String topicName) throws java.rmi.RemoteException;
     //login verification
     public boolean login(String name, String password) throws java.rmi.RemoteException;
+    //register a new account
+    public void register(String name, String password) throws java.rmi.RemoteException;
 }

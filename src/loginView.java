@@ -87,7 +87,17 @@ public class loginView extends JFrame implements EventListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				String name = nameField.getText();	
+				String password = passwordField.getText();
+				try {
+					_t.register(name, password);
+					JOptionPane.showMessageDialog(null,
+							"New account created", "Congratulations,",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+				
 			    
 			}});
 		base.add(textJPanel);
